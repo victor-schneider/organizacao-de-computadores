@@ -1,3 +1,4 @@
+#include "instrucoes.h"
 #include <iostream>
 using namespace std;
 

@@ -1,7 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "tipos.cpp"
-#include "structs.cpp"
+#include <string>
+#include <vector>
+#include "tipos.h"
+#include "hazards.h"
+
 using namespace std;
 
 string hexParaBinario(string hex) {
@@ -62,6 +65,8 @@ int main (){
   }
 
   string linhaLida;
+  int enderecoAtual = 0;
+  vector <InstrucaoDecodificada> programa;
 
   while (getline(arquivo, linhaLida)) {
     if (linhaLida.empty()) {
@@ -92,78 +97,82 @@ int main (){
           instrucaoI = tipoI(binarioString); // Chama a função para fazer a separação do restante do binário se baseando no template do tipo selecionado
           instrucaoI.opcode = temp;
           temp = "";
-          cout << endl;
-          cout << "opcode tipo I: " << instrucaoI.opcode << " : " << binarioParaImediato(instrucaoI.opcode) << endl;
-          cout << instrucaoI.rd << " rd tipo I :" << binarioParaImediato(instrucaoI.rd) << endl;
-          cout << instrucaoI.funct3 << " funct3 tipo I :" << binarioParaImediato(instrucaoI.funct3) << endl;
-          cout << instrucaoI.rs1 << " rs1 tipo I:" << binarioParaImediato(instrucaoI.rs1) << endl;
-          cout << instrucaoI.imm << " imm tipo I:"  << binarioParaImediato(instrucaoI.imm) << endl;
-          cout << endl << endl;
           
+          InstrucaoDecodificada inst;
+          inst.rd = inst.rd;
+          inst.rs1 = inst.rs1;
+          inst.instrucaoOriginal = linhaLida;
+          inst.endereco = enderecoAtual;
+          inst.desvio = false;
+
+          programa.push_back(inst);
           
         } else if (temp == "1101111") { // tipo J
           InstrucaoTipoJ instrucaoJ = tipoJ(binarioString);
           instrucaoJ.opcode = temp;
 
-          cout << endl;
-          cout << "opcode tipo J: " << instrucaoJ.opcode << endl;
-          cout << instrucaoJ.rd << " rd tipo J: " << binarioParaImediato(instrucaoJ.rd) << endl;
-          cout << instrucaoJ.imm_12_19 << " IMM_12_19 tipo J: " << binarioParaImediato(instrucaoJ.imm_12_19) << endl;
-          cout << instrucaoJ.imm_11 << " IMM_11 tipo J: " << binarioParaImediato(instrucaoJ.imm_11) << endl;
-          cout << instrucaoJ.imm_10_1 << " IMM_10_1 tipo J: " << binarioParaImediato(instrucaoJ.imm_10_1) << endl;
-          cout << instrucaoJ.imm_20 << " IMM_20 tipo J: " << binarioParaImediato(instrucaoJ.imm_20) << endl;
-          cout << endl << endl;
+          InstrucaoDecodificada inst;
+          inst.rd = instrucaoJ.rd;
+          inst.desvio = true;
+          
+          programa.push_back(inst);
 
         } else if (temp == "0110011") { // tipo R
           InstrucaoTipoR instrucaoR = tipoR(binarioString);
           instrucaoR.opcode = temp;
-          cout << instrucaoR.opcode << " opcode :" << binarioParaImediato(instrucaoR.opcode) << endl;
-          cout << instrucaoR.rd << " rd tipo R :" << binarioParaImediato(instrucaoR.rd) << endl;
-          cout << instrucaoR.funct3 << " funct3 tipo R :" << binarioParaImediato(instrucaoR.funct3) << endl;
-          cout << instrucaoR.rs1 << " rs1 tipo R:" << binarioParaImediato(instrucaoR.rs1) << endl;
-          cout << instrucaoR.rs2 << " rs2 tipo R:" << binarioParaImediato(instrucaoR.rs2) << endl;
-          cout << instrucaoR.funct7 << " imm tipo R:"  << binarioParaImediato(instrucaoR.funct7) << endl;
-          cout << endl << endl;
+          
+          InstrucaoDecodificada inst;
+          inst.rs1 = instrucaoR.rs1;
+          inst.rs2 = instrucaoR.rs2;
+          inst.rd = instrucaoR.rd;
+          inst.desvio = false;
+          inst.instrucaoOriginal = linhaLida;
+          inst.endereco = enderecoAtual;
+
+          programa.push_back(inst);
 
         } else if (temp == "0100011") { // Tipo S
           InstrucaoTipoS instrucaoS = tipoS(binarioString);
           instrucaoS.opcode = temp;
-          cout << endl;
-          cout << "opcode tipo S: " << instrucaoS.opcode << endl;
-          cout << instrucaoS.imm_4_0 << " imm_4_0 tipo S: " << binarioParaImediato(instrucaoS.imm_4_0)<< endl;
-          cout << instrucaoS.funct3 << " funct 3 tipo S: " << binarioParaImediato(instrucaoS.funct3)<< endl;
-          cout << instrucaoS.rs1 << " rs1 tipo S: " << binarioParaImediato(instrucaoS.rs1)<< endl;
-          cout << instrucaoS.rs2 << " rs2 tipo S: " << binarioParaImediato(instrucaoS.rs2)<< endl;
-          cout << instrucaoS.imm_11_5 << " imm_11_5 tipo S: " << binarioParaImediato(instrucaoS.imm_11_5)<< endl;
-          cout << endl << endl;
+   
+          InstrucaoDecodificada inst;
+          inst.rs1 = instrucaoS.rs1;
+          inst.rs2 = instrucaoS.rs2;
+          inst.instrucaoOriginal = linhaLida;
+          inst.desvio = false;
+          inst.endereco = enderecoAtual;
+
+          programa.push_back(inst);
 
         } else if (temp == "1100011") { // tipo B
           InstrucaoTipoB instrucaoB = tipoB(binarioString);
           instrucaoB.opcode = temp;
-          cout << endl;
-          cout << "opcode tipo B: " << instrucaoB.opcode << endl;
 
-          cout << instrucaoB.imm_1_1 << " imm11 tipo B: " << binarioParaImediato(instrucaoB.imm_1_1) << endl; 
-          cout << instrucaoB.imm_4_1 << " imm4_1 tipo B: " << binarioParaImediato(instrucaoB.imm_4_1) << endl; 
-          cout << instrucaoB.funct3 << " funct3 tipo B: " << binarioParaImediato(instrucaoB.funct3) << endl; 
-          cout << instrucaoB.rs1 << " rs1 tipo B: " << binarioParaImediato(instrucaoB.rs1) << endl; 
-          cout << instrucaoB.rs2 << " rs2 tipo B: " << binarioParaImediato(instrucaoB.rs2) << endl; 
-          cout << instrucaoB.imm_10_5 << " imm_10_5 tipo B: " << binarioParaImediato(instrucaoB.imm_10_5) << endl;
-          cout << instrucaoB.imm_12 << " imm_12 tipo B: " << binarioParaImediato(instrucaoB.imm_12) << endl; 
-          cout << endl << endl;
+          InstrucaoDecodificada inst;
+          inst.rs1 = instrucaoB.rs1;
+          inst.rs2 = instrucaoB.rs2;
+          inst.desvio = true;
+          inst.instrucaoOriginal = linhaLida;
+          inst.endereco = enderecoAtual;
 
-          
-        } else if (temp == "0010111" || temp == "0110111") { // tipo U
+          programa.push_back(inst);
+
+        } else if (temp == "0010111" || temp == "0110111") { // tipo U        
           InstrucaoTipoU instrucaoU = tipoU(binarioString);
           instrucaoU.opcode = temp;
-          cout << endl;
-          cout << "opcode tipo U: " << instrucaoU.opcode << endl;
-          cout << instrucaoU.rd << " rd tipo U: " << binarioParaImediato(instrucaoU.rd) << endl;
-          cout << instrucaoU.imm_12_31 << " IMM_12_31 tipo U: " << binarioParaImediato(instrucaoU.imm_12_31) << endl;
-          cout << endl << endl;
+
+          InstrucaoDecodificada inst;
+          inst.rd = instrucaoU.rd;
+          inst.instrucaoOriginal = linhaLida;
+          inst.endereco = enderecoAtual;
+
+          programa.push_back(inst);
         } 
     } 
+    enderecoAtual += 4;
   }
-
   arquivo.close();
+
+  int conflitos_dados_sfwd = conflitoDadosSemFw(programa);
+  cout << conflitos_dados_sfwd;
 }

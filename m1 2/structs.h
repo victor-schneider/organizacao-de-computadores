@@ -4,6 +4,17 @@
 #include <iostream>
 using namespace std;
 
+struct InstrucaoDecodificada {
+  string rs1 = "-1";
+  string rs2 = "-1";
+  string rd = "-1";
+
+  bool desvio = false;
+
+  string instrucaoOriginal;
+  int endereco;
+};
+
 struct InstrucaoTipoR {
     // 0 - 6 -- Identificador
     string opcode = "0";

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "structs.cpp"
-#include "instrucoes.cpp"
+#include "tipos.h"
+#include "instrucoes.h"
 using namespace std;
 
 int binarioParaImediato (string binario) {
