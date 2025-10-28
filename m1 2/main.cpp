@@ -96,17 +96,19 @@ int main (){
           InstrucaoTipoI instrucaoI;
           instrucaoI = tipoI(binarioString); // Chama a função para fazer a separação do restante do binário se baseando no template do tipo selecionado
           instrucaoI.opcode = temp;
-          temp = "";
+          
           
           InstrucaoDecodificada inst;
-          inst.rd = inst.rd;
-          inst.rs1 = inst.rs1;
+          inst.rd = instrucaoI.rd;
+          inst.rs1 = instrucaoI.rs1;
           inst.instrucaoOriginal = linhaLida;
           inst.endereco = enderecoAtual;
           inst.desvio = false;
-
+          if(temp == "0000011") inst.loadWord = true;
+          cout << inst.rd << endl;
           programa.push_back(inst);
           
+          temp = "";
         } else if (temp == "1101111") { // tipo J
           InstrucaoTipoJ instrucaoJ = tipoJ(binarioString);
           instrucaoJ.opcode = temp;
@@ -174,5 +176,6 @@ int main (){
   arquivo.close();
 
   int conflitos_dados_sfwd = conflitoDadosSemFw(programa);
-  cout << conflitos_dados_sfwd;
+  int conflitos_dados_cfwd = conflitoDadosComFw(programa);
+  cout << conflitos_dados_cfwd;
 }

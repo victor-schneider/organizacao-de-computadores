@@ -10,6 +10,7 @@ struct InstrucaoDecodificada {
   string rd = "-1";
 
   bool desvio = false;
+  bool loadWord = false;
 
   string instrucaoOriginal;
   int endereco;

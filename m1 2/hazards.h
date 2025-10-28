@@ -7,4 +7,6 @@ using namespace std;
 
 int conflitoDadosSemFw(vector<InstrucaoDecodificada>& programa);
 
+int conflitoDadosComFw(vector<InstrucaoDecodificada>& programa);
+
 #endif

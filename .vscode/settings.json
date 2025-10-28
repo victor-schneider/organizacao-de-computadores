@@ -59,6 +59,7 @@
   "files.associations": {
     ".env*": "dotenv",
     ".css": "tailwindcss",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "vector": "cpp"
   }
 }

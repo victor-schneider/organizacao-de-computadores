@@ -12,7 +12,7 @@ string funct7 (string &binarioString);
 string imediatoTipoI (string &binarioString);
 void imediatoTipoS (string &binarioString, InstrucaoTipoS &tipoS);
 void imediatoTipoB (string &binarioString, InstrucaoTipoB &tipoB);
-void imediatoTipoU (string &binarioString, InstrucaoTipoU &tipoU );
+void imediatoTipoU (string &binarioString, InstrucaoTipoU &tipoU);
 void imediatoTipoJ (string &binarioString, InstrucaoTipoJ &tipoJ);
 
 #endif
