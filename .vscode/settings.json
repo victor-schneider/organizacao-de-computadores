@@ -60,6 +60,7 @@
     ".env*": "dotenv",
     ".css": "tailwindcss",
     "fstream": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "iostream": "cpp"
   }
 }

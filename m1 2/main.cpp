@@ -103,7 +103,7 @@ int main (){
           inst.rs1 = instrucaoI.rs1;
           inst.instrucaoOriginal = linhaLida;
           inst.endereco = enderecoAtual;
-          inst.desvio = false;
+          if(temp == "1100111") {inst.desvio = true; } else { inst.desvio = false; };
           if(temp == "0000011") inst.loadWord = true;
           cout << inst.rd << endl;
           programa.push_back(inst);
@@ -177,5 +177,6 @@ int main (){
 
   int conflitos_dados_sfwd = conflitoDadosSemFw(programa);
   int conflitos_dados_cfwd = conflitoDadosComFw(programa);
-  cout << conflitos_dados_cfwd;
+  int conflitos_controle = conflitoControle(programa);
+  cout << conflitos_controle;
 }

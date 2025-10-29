@@ -50,20 +50,33 @@ int conflitoDadosComFw(vector<InstrucaoDecodificada> &programa) {
       for (int i = 1; i < programa.size(); i++) {
         if( programa[i-1].loadWord ) {
           string& lw_rd = programa[i-1].rd;
-          cout << "lw_rd: " << lw_rd << endl;
+          // cout << "lw_rd: " << lw_rd << endl;
 
           if(lw_rd == REG_NULO || lw_rd == REG_ZERO) {
             continue;
           }
 
           string atual_rs1 = programa[i].rs1;
-          cout << "atual_rs1: " << atual_rs1 << endl;
+          // cout << "atual_rs1: " << atual_rs1 << endl;
           string atual_rs2 = programa[i].rs2;
-          cout << "atual_rs2: " << atual_rs2 << endl;
+          // cout << "atual_rs2: " << atual_rs2 << endl;
 
           if (lw_rd == atual_rs1 || lw_rd == atual_rs2) {
             contagemConflitos++;
           }
+        }
+      }
+
+      return contagemConflitos;
+    }
+
+    int conflitoControle(vector<InstrucaoDecodificada>& programa) {
+      int contagemConflitos = 0;
+
+      for (int i = 0; i < programa.size(); i++) {
+        if(programa[i].desvio) {
+          contagemConflitos++;
+          cout << programa[i].instrucaoOriginal << endl;
         }
       }
 

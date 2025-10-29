@@ -9,4 +9,6 @@ int conflitoDadosSemFw(vector<InstrucaoDecodificada>& programa);
 
 int conflitoDadosComFw(vector<InstrucaoDecodificada>& programa);
 
+int conflitoControle(vector<InstrucaoDecodificada>& programa);
+
 #endif
